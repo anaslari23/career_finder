@@ -16,6 +16,8 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
+
+
 version: 1.0.0+1
 
 environment:
@@ -31,24 +33,39 @@ dependencies:
   flutter:
     sdk: flutter
   google_sign_in: ^6.1.4
+  video_player: ^2.7.2
+  
 
 
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+  animated_splash_screen: ^1.3.0
   flutter_svg: ^2.0.7
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_native_splash: ^2.3.2
+
+flutter_native_splash:
+    android : true 
+    ios :   true 
+    web : true
+  
+    background_image: assets\icons\icon.png
+    image: assets\icons\icon.png
+    #color: "#" 
+    #color_dark: "#0a0a0a" 
+    #android_gravity: fill 
+    #ios_content_mode: scaleAspectFill
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^2.0.0
+flutter_lints: ^2.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -57,8 +74,12 @@ dev_dependencies:
 flutter:
   assets:
     - assets/images/log.jpg
-    - assets/svg/
-
+    - assets/svg/google.svg
+    - assets/icons/icon.png
+    - assets/images/onboarding_image1.png
+    - assets/images/onboarding_image2.png
+    - assets/images/onboarding_image3.png
+    - assets/icons/
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
@@ -87,10 +108,19 @@ flutter:
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
-  #
+ # fonts:
+  fonts:
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/poppins/Poppins-SemiBold.ttf
+          weight: 500
+
+        - asset: assets/fonts/poppins/Poppins-Bold.ttf
+          weight: 700
+
+        - asset: assets/fonts/poppins/Poppins-Medium.ttf
+          weight: 300
+ 
+  
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

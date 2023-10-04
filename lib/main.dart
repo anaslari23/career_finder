@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:login_page/login_screen.dart';
-
+import 'package:login_page/splash_screen.dart';
+//11import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 void main() {
+
   runApp(const MyApp());
+
 }
 
 class MyApp extends StatelessWidget {
@@ -12,9 +15,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'CARRER FINDER',
       theme: ThemeData.dark(),
-      home: const BackgroundImageLoginScreen(),
+      home: SplashScreen( ),
     );
   }
 }

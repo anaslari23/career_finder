@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:login_page/onbordingscreen.dart';
 import 'package:login_page/widgets/gradient_button.dart';
 import 'package:login_page/widgets/login_field.dart';
 import 'package:login_page/widgets/social_button.dart';
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'App',
+      title: 'EDUAPP',
       theme: ThemeData.dark().copyWith(
         scaffoldBackgroundColor: Colors.black, // Change to your background color
       ),
@@ -41,7 +42,7 @@ class LoginScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text(
-                  'Career Finder',
+                  'CAREER FINDER',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 50,
@@ -55,7 +56,7 @@ class LoginScreen extends StatelessWidget {
                     final GoogleSignIn googleSignIn = GoogleSignIn();
                     try {
                       final GoogleSignInAccount? googleUser =
-                      await googleSignIn.signIn();
+                          await googleSignIn.signIn();
 
                       if (googleUser != null) {
                         // Successfully signed in, handle further logic
@@ -83,6 +84,25 @@ class LoginScreen extends StatelessWidget {
                 const LoginField(hintText: 'Password'),
                 const SizedBox(height: 20),
                 const GradientButton(),
+                const SizedBox(height: 20), // Add spacing between the login button and "Skip"
+                TextButton(
+                  onPressed: () {
+                    // Handle the "Skip" action here
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => OnboardingScreen(),
+                      ),
+                    );
+                  },
+                  child: const Text(
+                    'Skip',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
@@ -93,7 +113,7 @@ class LoginScreen extends StatelessWidget {
 }
 
 class FacebookSignInScreen extends StatelessWidget {
-  const FacebookSignInScreen({super.key});
+  const FacebookSignInScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
