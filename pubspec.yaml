@@ -34,7 +34,8 @@ dependencies:
     sdk: flutter
   google_sign_in: ^6.1.4
   video_player: ^2.7.2
-  
+  youtube_player_flutter: ^8.1.2
+  flutter_animate: ^4.2.0+1
 
 
 
@@ -47,7 +48,6 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_native_splash: ^2.3.2
-
 flutter_native_splash:
     android : true 
     ios :   true 
@@ -73,13 +73,18 @@ flutter_lints: ^2.0.0
 # The following section is specific to Flutter packages.
 flutter:
   assets:
+    - assets/icons/
     - assets/images/log.jpg
     - assets/svg/google.svg
     - assets/icons/icon.png
     - assets/images/onboarding_image1.png
     - assets/images/onboarding_image2.png
     - assets/images/onboarding_image3.png
-    - assets/icons/
+    - assets/icons/star.png
+    - assets/icons/play_outlined.png
+    - assets/icons/heart_outlined.png
+    - assets/icons/settings_outlined.png
+
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.

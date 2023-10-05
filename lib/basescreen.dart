@@ -1,9 +1,10 @@
 
-import 'constants/color.dart';
-import 'constants/icons.dart';
-import 'constants/size.dart';
-import 'featuerd_screen.dart';
+import 'package:login_page/featuerd_screen.dart';
 import 'package:flutter/material.dart';
+
+import 'package:login_page/screens/my_learning_screen.dart';
+import 'package:login_page/screens/wishlist_screen.dart';
+import 'package:login_page/screens/settings_screen.dart';
 
 class BaseScreen extends StatefulWidget {
   const BaseScreen({Key? key}) : super(key: key);
@@ -15,12 +16,13 @@ class BaseScreen extends StatefulWidget {
 class _BaseScreenState extends State<BaseScreen> {
   int _selectedIndex = 0;
 
-  static const List<Widget> _widgetOptions = <Widget>[
+  static List<Widget> _widgetOptions = <Widget>[
     FeaturedScreen(),
-    FeaturedScreen(),
-    FeaturedScreen(),
-    FeaturedScreen(),
+    MyLearningScreen(),
+    WishlistScreen(),
+    SettingsScreen(),
   ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,62 +30,38 @@ class _BaseScreenState extends State<BaseScreen> {
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          selectedItemColor: kPrimaryColor,
-          backgroundColor: Colors.white,
-          elevation: 0,
-          items: [
-            BottomNavigationBarItem(
-              activeIcon: Image.asset(
-                icFeatured,
-                height: kBottomNavigationBarItemSize,
-              ),
-              icon: Image.asset(
-                icFeaturedOutlined,
-                height: kBottomNavigationBarItemSize,
-              ),
-              label: "Featured",
-            ),
-            BottomNavigationBarItem(
-              activeIcon: Image.asset(
-                icLearning,
-                height: kBottomNavigationBarItemSize,
-              ),
-              icon: Image.asset(
-                icLearningOutlined,
-                height: kBottomNavigationBarItemSize,
-              ),
-              label: "My Learning",
-            ),
-            BottomNavigationBarItem(
-              activeIcon: Image.asset(
-                icWishlist,
-                height: kBottomNavigationBarItemSize,
-              ),
-              icon: Image.asset(
-                icWishlistOutlined,
-                height: kBottomNavigationBarItemSize,
-              ),
-              label: "Wishlist",
-            ),
-            BottomNavigationBarItem(
-              activeIcon: Image.asset(
-                icSetting,
-                height: kBottomNavigationBarItemSize,
-              ),
-              icon: Image.asset(
-                icSettingOutlined,
-                height: kBottomNavigationBarItemSize,
-              ),
-              label: "Settings",
-            ),
-          ],
-          currentIndex: _selectedIndex,
-          onTap: (int index) {
-            setState(() {
-              _selectedIndex = index;
-            });
-          }),
+        type: BottomNavigationBarType.fixed,
+        selectedItemColor: Colors.blue, // Change this color
+        unselectedItemColor: Colors.grey, // Add this line to set unselected color
+        backgroundColor: Colors.white,
+        elevation: 0,
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
+        items: <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.featured_play_list),
+            label: "Featured",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.school),
+            label: "My Learning",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.favorite),
+            label: "Wishlist",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: "Settings",
+          ),
+        ],
+      ),
     );
+  }
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
   }
 }

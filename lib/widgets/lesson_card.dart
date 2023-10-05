@@ -1,5 +1,5 @@
-import '/constants/icons.dart';
-import '/models/lesson.dart';
+import 'package:login_page/constants/icons.dart';
+import 'package:login_page/models/lesson.dart';
 import 'package:flutter/material.dart';
 
 class LessonCard extends StatelessWidget {

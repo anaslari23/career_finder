@@ -1,6 +1,6 @@
-import 'constants/color.dart';
-import 'models/course.dart';
-import 'details_screen.dart';
+import 'package:login_page/constants/color.dart';
+import 'package:login_page/models/course.dart';
+import 'package:login_page/details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -102,6 +102,7 @@ class CourseContainer extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(10),
               child: Image.asset(
+                
                 course.thumbnail,
                 height: 60,
               ),

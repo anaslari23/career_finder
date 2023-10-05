@@ -1,11 +1,10 @@
-import 'constants/color.dart';
-import 'constants/icons.dart';
-import 'models/lesson.dart';
-import 'widgets/custom_video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-import 'widgets/lesson_card.dart';
+import 'package:login_page/constants/color.dart';
+import 'constants/icons.dart';
+import 'package:login_page/models/lesson.dart';
+import 'package:login_page/widgets/custom_video_player.dart';
+import 'package:login_page/widgets/lesson_card.dart';
 
 class DetailsScreen extends StatefulWidget {
   final String title;
