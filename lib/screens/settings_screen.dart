@@ -44,6 +44,7 @@ class SettingsScreen extends StatelessWidget {
               title: Text('Change Password'),
               onTap: () {
                 // Navigate to the change password screen
+                Navigator.push(context, MaterialPageRoute(builder: (context) => ChangePasswordScreen()));
               },
             ),
             Divider(),
@@ -51,6 +52,8 @@ class SettingsScreen extends StatelessWidget {
               title: Text('Sign Out'),
               onTap: () {
                 // Handle sign out logic here
+                // After signing out, navigate to the featured screen
+                Navigator.pop(context);
               },
             ),
           ],
@@ -59,3 +62,16 @@ class SettingsScreen extends StatelessWidget {
     );
   }
 }
+
+class ChangePasswordScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Change Password'),
+      ),
+      // Your change password screen content goes here
+    );
+  }
+}
+

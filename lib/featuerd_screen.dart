@@ -1,11 +1,23 @@
-import 'package:login_page/constants/color.dart';
-import 'package:login_page/constants/size.dart';
-import 'package:login_page/models/category.dart';
-import 'package:login_page/course_screen.dart';
-import 'package:login_page/widgets/circle_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:login_page/widgets/search_testfield.dart';
+import 'package:login_page/profile_screen.dart';
+import 'package:login_page/feedback_screen.dart';
+import 'package:login_page/intern_screen.dart';
+void main() {
+  runApp(
+    MaterialApp(
+      home: FeaturedScreen(),
+      theme: ThemeData(
+        textTheme: TextTheme(
+          bodyLarge: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          bodyMedium: TextStyle(fontSize: 16),
+          bodySmall: TextStyle(fontSize: 14),
+          headline6: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        ),
+      ),
+    ),
+  );
+}
 
 class FeaturedScreen extends StatefulWidget {
   const FeaturedScreen({Key? key}) : super(key: key);
@@ -15,15 +27,17 @@ class FeaturedScreen extends StatefulWidget {
 }
 
 class _FeaturedScreenState extends State<FeaturedScreen> {
+  String searchText = "";
+
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.light,
       child: Scaffold(
         body: Column(
-          children: const [
-            AppBar(),
-            Body(),
+          children: [
+            CustomAppBar(searchText: searchText),
+            Body(searchText: searchText),
           ],
         ),
       ),
@@ -32,10 +46,24 @@ class _FeaturedScreenState extends State<FeaturedScreen> {
 }
 
 class Body extends StatelessWidget {
-  const Body({Key? key}) : super(key: key);
+  final String searchText;
+  Body({required this.searchText});
+
+  List<Category> getFilteredCategories(List<Category> categories) {
+    if (searchText.isEmpty) {
+      return categories;
+    } else {
+      return categories
+          .where((category) =>
+              category.name.toLowerCase().contains(searchText.toLowerCase()))
+          .toList();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    final filteredCategories = getFilteredCategories(categoryList);
+
     return Column(
       children: [
         Padding(
@@ -54,7 +82,7 @@ class Body extends StatelessWidget {
                   style: Theme.of(context)
                       .textTheme
                       .bodyMedium
-                      ?.copyWith(color: kPrimaryColor),
+                      ?.copyWith(color: Colors.blue),
                 ),
               )
             ],
@@ -74,10 +102,10 @@ class Body extends StatelessWidget {
           ),
           itemBuilder: (context, index) {
             return CategoryCard(
-              category: categoryList[index],
+              category: filteredCategories[index],
             );
           },
-          itemCount: categoryList.length,
+          itemCount: filteredCategories.length,
         ),
       ],
     );
@@ -86,31 +114,80 @@ class Body extends StatelessWidget {
 
 class CategoryCard extends StatelessWidget {
   final Category category;
-  const CategoryCard({
-    Key? key,
-    required this.category,
-  }) : super(key: key);
+  CategoryCard({Key? key, required this.category}) : super(key: key);
+
+  String getCategoryHeading() {
+    if (category.name == 'Category 1') {
+      return 'Guider';
+    } else if (category.name == 'Category 2') {
+      return 'Ongo Internships';
+    } else if (category.name == 'Category 3') {
+      return 'Chatbot';
+    } else if (category.name == 'Category 4') {
+      return 'Feedback';
+    } else {
+      return 'Others';
+    }
+  }
+
+  void navigateToScreen(BuildContext context) {
+    if (category.name == 'Category 1') {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => GuiderScreen(),
+        ),
+      );
+    } else if (category.name == 'Category 2') {
+
+Navigator.push(
+  context,
+  MaterialPageRoute(
+    builder: (context) => InternScreen(), // Replace with the content you want to display on InternScreen
+  ),
+);
+
+
+
+
+
+    } else if (category.name == 'Category 3') {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ChatbotScreen(),
+        ),
+      );
+    } else if (category.name == 'Category 4') {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => FeedbackScreen(),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const CourseScreen(),
-        ),
-      ),
+      onTap: () {
+        navigateToScreen(context);
+      },
       child: Container(
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(20),
+            bottomRight: Radius.circular(20),
+          ),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(.1),
               blurRadius: 4.0,
               spreadRadius: .05,
-            ), //BoxShadow
+            ),
           ],
         ),
         child: Column(
@@ -126,7 +203,13 @@ class CategoryCard extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            Text(category.name),
+            Text(
+              getCategoryHeading(),
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
             Text(
               "${category.noOfCourses.toString()} courses",
               style: Theme.of(context).textTheme.bodySmall,
@@ -138,13 +221,28 @@ class CategoryCard extends StatelessWidget {
   }
 }
 
-class AppBar extends StatelessWidget {
-  const AppBar({
-    Key? key,
-  }) : super(key: key);
+class CustomAppBar extends StatelessWidget {
+  final String searchText;
+
+  CustomAppBar({required this.searchText});
+
+  String _getGreeting() {
+    final now = DateTime.now();
+    final hour = now.hour;
+
+    if (hour < 12) {
+      return 'Good morning';
+    } else if (hour < 17) {
+      return 'Good afternoon';
+    } else {
+      return 'Good evening';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    final greeting = _getGreeting();
+
     return Container(
       padding: const EdgeInsets.only(top: 50, left: 20, right: 20),
       height: 200,
@@ -159,8 +257,8 @@ class AppBar extends StatelessWidget {
           end: Alignment.bottomRight,
           stops: [0.1, 0.5],
           colors: [
-            Color(0xff886ff2),
-            Color(0xff6849ef),
+            Color.fromARGB(255, 247, 29, 14),
+            Color.fromARGB(255, 214, 16, 16),
           ],
         ),
       ),
@@ -170,22 +268,82 @@ class AppBar extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                "Hello,\nGood Morning",
-                style: Theme.of(context).textTheme.titleLarge,
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ProfileScreen(),
+                    ),
+                  );
+                },
+                child: CircleAvatar(
+                  backgroundImage: AssetImage('assets/images/fff.png'),
+                  radius: 30,
+                ),
               ),
-              CircleButton(
-                icon: Icons.notifications,
-                onPressed: () {},
+              Text(
+                '$greeting,',
+                style: Theme.of(context).textTheme.headline6,
               ),
             ],
           ),
           const SizedBox(
             height: 20,
           ),
-          const SearchTextField()
         ],
       ),
     );
   }
 }
+
+class Category {
+  final String name;
+  final String thumbnail;
+  final int noOfCourses;
+
+  Category({
+    required this.name,
+    required this.thumbnail,
+    required this.noOfCourses,
+  });
+}
+
+final categoryList = <Category>[
+  Category(name: 'Category 1', thumbnail: 'assets/images/guidance.png', noOfCourses: 8),
+  Category(name: 'Category 2', thumbnail: 'assets/images/graduates.png', noOfCourses: 12),
+  Category(name: 'Category 3', thumbnail: 'assets/images/chatbot.png', noOfCourses: 6),
+  Category(name: 'Category 4', thumbnail: 'assets/images/other.png', noOfCourses: 10),
+];
+const double kCategoryCardImageSize = 100.0;
+
+class GuiderScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Guider Screen'),
+      ),
+      body: Center(
+        child: Text('This is the Guider Screen'),
+      ),
+    );
+  }
+}
+
+
+class ChatbotScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Chatbot Screen'),
+      ),
+      body: Center(
+        child: Text('This is the Chatbot Screen'),
+      ),
+    );
+  }
+}
+
+

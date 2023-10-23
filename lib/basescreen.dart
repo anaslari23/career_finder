@@ -50,10 +50,12 @@ class _BaseScreenState extends State<BaseScreen> {
             icon: Icon(Icons.favorite),
             label: "Wishlist",
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: "Settings",
-          ),
+       BottomNavigationBarItem(
+  icon: Icon(Icons.settings),
+  label: 'Settings', // Provide the label text
+)
+
+
         ],
       ),
     );

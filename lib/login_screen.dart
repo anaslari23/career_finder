@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:login_page/onbordingscreen.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:login_page/onbording_screen.dart';
+import 'package:login_page/registration_screen.dart';
 import 'package:login_page/widgets/gradient_button.dart';
 import 'package:login_page/widgets/login_field.dart';
 import 'package:login_page/widgets/social_button.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -15,7 +17,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'EDUAPP',
+      title: 'CAREERAPP',
       theme: ThemeData.dark().copyWith(
         scaffoldBackgroundColor: Colors.black, // Change to your background color
       ),
@@ -84,19 +86,19 @@ class LoginScreen extends StatelessWidget {
                 const LoginField(hintText: 'Password'),
                 const SizedBox(height: 20),
                 const GradientButton(),
-                const SizedBox(height: 20), // Add spacing between the login button and "Skip"
+                const SizedBox(height: 20), // Add spacing between the login button and "Sign Up"
                 TextButton(
                   onPressed: () {
-                    // Handle the "Skip" action here
+                    // Handle the "Sign Up" action here
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => OnboardingScreen(),
+                        builder: (context) => RegistrationScreen(),
                       ),
                     );
                   },
                   child: const Text(
-                    'Skip',
+                    'Sign Up',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 20,

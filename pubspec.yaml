@@ -32,11 +32,14 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  google_sign_in: ^6.1.4
   video_player: ^2.7.2
   youtube_player_flutter: ^8.1.2
   flutter_animate: ^4.2.0+1
-
+  google_sign_in: ^6.1.5
+  flutter_gif: ^0.0.4
+  webview_flutter: ^2.8.0
+  flutter_dotenv: ^5.1.0
+  http: ^1.1.0
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -84,7 +87,12 @@ flutter:
     - assets/icons/play_outlined.png
     - assets/icons/heart_outlined.png
     - assets/icons/settings_outlined.png
-
+    - assets/images/fff.png
+    - assets/images/guidance.png
+    - assets/images/chatbot.png
+    - assets/images/graduates.png
+    - assets/images/other.png
+    - assets/images/background.gif
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
