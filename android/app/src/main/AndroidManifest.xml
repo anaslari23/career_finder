@@ -1,5 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.login_page">
+ <uses-sdk
+        android:minSdkVersion="21"
+        android:targetSdkVersion="21" />
+
+
     <application
         android:label="login_page"
         android:name="${applicationName}"
@@ -30,5 +35,6 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+       
     </application>
 </manifest>

@@ -40,8 +40,11 @@ dependencies:
   webview_flutter: ^2.8.0
   flutter_dotenv: ^5.1.0
   http: ^1.1.0
-
-
+  firebase_auth: ^4.11.1
+  firebase_core: ^2.19.0
+  animate_do: ^3.1.2
+  flutter_tts: ^3.8.3
+  speech_to_text: ^6.3.0
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
@@ -93,6 +96,7 @@ flutter:
     - assets/images/graduates.png
     - assets/images/other.png
     - assets/images/background.gif
+    - assets/images/virtualAssistant.png.
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
@@ -133,6 +137,8 @@ flutter:
 
         - asset: assets/fonts/poppins/Poppins-Medium.ttf
           weight: 300
+        - asset: assets/fonts/Cera-Pro-Bold.otf
+        - asset: assets/fonts/Cera-Pro-Medium.otf
  
   
   # For details regarding fonts from package dependencies,

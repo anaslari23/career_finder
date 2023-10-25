@@ -7,4 +7,13 @@ class Pallete {
   static const Color gradient3 = Color.fromRGBO(255, 159, 124, 1);
   static const Color borderColor = Color.fromRGBO(52, 51, 67, 1);
   static const Color whiteColor = Colors.white;
+    static const Color mainFontColor = Color.fromRGBO(19, 61, 95, 1);
+  static const Color firstSuggestionBoxColor = Color.fromRGBO(165, 231, 244, 1);
+  static const Color secondSuggestionBoxColor =
+      Color.fromRGBO(157, 202, 235, 1);
+  static const Color thirdSuggestionBoxColor = Color.fromRGBO(162, 238, 239, 1);
+  static const Color assistantCircleColor = Color.fromRGBO(209, 243, 249, 1);
+  static const Color border= Color.fromRGBO(200, 200, 200, 1);
+  static const Color blackColor = Colors.black;
+  static const Color white= Colors.white;
 }

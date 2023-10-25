@@ -27,7 +27,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.login_page"
-        minSdkVersion 19// Minimum supported Android version
+        minSdkVersion 21// Minimum supported Android version
         targetSdkVersion 30 // Target Android version
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName

@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:login_page/profile_screen.dart';
 import 'package:login_page/feedback_screen.dart';
 import 'package:login_page/intern_screen.dart';
+import 'package:login_page/chatbot.dart';
+
 void main() {
   runApp(
     MaterialApp(
@@ -12,6 +14,7 @@ void main() {
           bodyLarge: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           bodyMedium: TextStyle(fontSize: 16),
           bodySmall: TextStyle(fontSize: 14),
+
           headline6: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
       ),
@@ -155,7 +158,7 @@ Navigator.push(
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => ChatbotScreen(),
+          builder: (context) =>Chatbot(),
         ),
       );
     } else if (category.name == 'Category 4') {
@@ -332,18 +335,6 @@ class GuiderScreen extends StatelessWidget {
 }
 
 
-class ChatbotScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Chatbot Screen'),
-      ),
-      body: Center(
-        child: Text('This is the Chatbot Screen'),
-      ),
-    );
-  }
-}
+
 
 
