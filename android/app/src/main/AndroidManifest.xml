@@ -5,6 +5,8 @@
         android:targetSdkVersion="21" />
 
 
+
+
     <application
         android:label="login_page"
         android:name="${applicationName}"
