@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:login_page/onbording_screen.dart';
 import 'package:login_page/registration_screen.dart';
 import 'package:login_page/widgets/gradient_button.dart';
 import 'package:login_page/widgets/login_field.dart';
 import 'package:login_page/widgets/social_button.dart';
+import 'package:http/http.dart' as http; // Added import for HTTP package
 
-
-void main() {
+void main() 
+{
   runApp(const MyApp());
 }
 
@@ -28,6 +28,30 @@ class MyApp extends StatelessWidget {
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
+
+  // Add the loginUser function here
+  Future<void> loginUser(String email, String password) async {
+    final url = Uri.parse('http://localhost:8000/api/login'); // Replace with your API endpoint
+
+    final response = await http.post(
+      url,
+      body: {
+        'email': email,
+        'password': password,
+      },
+    );
+
+    if (response.statusCode == 200) {
+      // Successful login, handle the response here
+      // You can parse the JSON response using the `json.decode` method if the API returns JSON data.
+      // Example: final responseData = json.decode(response.body);
+      // You can perform actions like navigating to a new screen if login is successful.
+    } else {
+      // Handle error cases here
+      print('Failed to login: ${response.statusCode}');
+      // You can display an error message to the user, e.g., using a SnackBar or AlertDialog.
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -87,6 +111,13 @@ class LoginScreen extends StatelessWidget {
                 const SizedBox(height: 20),
                 const GradientButton(),
                 const SizedBox(height: 20), // Add spacing between the login button and "Sign Up"
+                ElevatedButton(
+                  onPressed: () {
+                    // Call loginUser function when the login button is pressed
+                    loginUser('user@example.com', 'password'); // Replace with actual user input
+                  },
+                  child: const Text('Login'),
+                ),
                 TextButton(
                   onPressed: () {
                     // Handle the "Sign Up" action here

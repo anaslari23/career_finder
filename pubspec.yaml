@@ -46,6 +46,7 @@ dependencies:
   flutter_tts: ^3.8.3
   speech_to_text: ^6.3.0
   velocity_x: ^4.1.1
+  
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
@@ -97,8 +98,9 @@ flutter:
     - assets/images/graduates.png
     - assets/images/other.png
     - assets/images/background.gif
-    
     - assets/images/ic.gif
+    - assets/images/uu.png
+    - assets/images/giphy.gif
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.

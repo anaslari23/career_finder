@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:login_page/profile_screen.dart';
-import 'package:login_page/feedback_screen.dart';
-import 'package:login_page/intern_screen.dart';
 import 'package:login_page/chatbot.dart';
+import 'package:login_page/intern_screen.dart';
+import 'package:login_page/jobportalapp.dart';
+import 'package:login_page/profile_screen.dart';
+import 'package:login_page/screens/ongoing_internships_screen.dart';
 
 void main() {
   runApp(
@@ -14,7 +15,6 @@ void main() {
           bodyLarge: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           bodyMedium: TextStyle(fontSize: 16),
           bodySmall: TextStyle(fontSize: 14),
-
           headline6: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
       ),
@@ -32,6 +32,23 @@ class FeaturedScreen extends StatefulWidget {
 class _FeaturedScreenState extends State<FeaturedScreen> {
   String searchText = "";
 
+  void updateSearchText(String text) {
+    setState(() {
+      searchText = text;
+    });
+  }
+
+  List<Category> getFilteredCategories(List<Category> categories) {
+    if (searchText.isEmpty) {
+      return categories;
+    } else {
+      return categories
+          .where((category) =>
+              category.name.toLowerCase().contains(searchText.toLowerCase()))
+          .toList();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
@@ -39,7 +56,7 @@ class _FeaturedScreenState extends State<FeaturedScreen> {
       child: Scaffold(
         body: Column(
           children: [
-            CustomAppBar(searchText: searchText),
+            CustomAppBar(searchText: searchText, onSearchTextChanged: updateSearchText),
             Body(searchText: searchText),
           ],
         ),
@@ -123,11 +140,11 @@ class CategoryCard extends StatelessWidget {
     if (category.name == 'Category 1') {
       return 'Guider';
     } else if (category.name == 'Category 2') {
-      return 'Ongo Internships';
+      return 'Ongoing Internships';
     } else if (category.name == 'Category 3') {
       return 'Chatbot';
     } else if (category.name == 'Category 4') {
-      return 'Feedback';
+      return 'Recruitments';
     } else {
       return 'Others';
     }
@@ -142,30 +159,24 @@ class CategoryCard extends StatelessWidget {
         ),
       );
     } else if (category.name == 'Category 2') {
-
-Navigator.push(
-  context,
-  MaterialPageRoute(
-    builder: (context) => InternScreen(), // Replace with the content you want to display on InternScreen
-  ),
-);
-
-
-
-
-
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => InternshipSearchPage(),
+        ),
+      );
     } else if (category.name == 'Category 3') {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) =>Chatbot(),
+          builder: (context) => Chatbot(),
         ),
       );
     } else if (category.name == 'Category 4') {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => FeedbackScreen(),
+          builder: (context) =>   JobPortalApp(),
         ),
       );
     }
@@ -180,7 +191,7 @@ Navigator.push(
       child: Container(
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: const Color.fromARGB(255, 32, 31, 31),
           borderRadius: BorderRadius.only(
             bottomLeft: Radius.circular(20),
             bottomRight: Radius.circular(20),
@@ -213,32 +224,31 @@ Navigator.push(
                 fontWeight: FontWeight.bold,
               ),
             ),
-            Text(
-              "${category.noOfCourses.toString()} courses",
-              style: Theme.of(context).textTheme.bodySmall,
-            ),
+            
           ],
         ),
       ),
     );
   }
-}
-
-class CustomAppBar extends StatelessWidget {
+}class CustomAppBar extends StatelessWidget {
   final String searchText;
+  final Function(String) onSearchTextChanged;
+  final TextEditingController _searchController = TextEditingController();
 
-  CustomAppBar({required this.searchText});
+  CustomAppBar({required this.searchText, required this.onSearchTextChanged}) {
+    _searchController.text = searchText; // Initialize the search text in the controller
+  }
 
   String _getGreeting() {
     final now = DateTime.now();
     final hour = now.hour;
 
     if (hour < 12) {
-      return 'Good morning';
+      return 'Good Morning';
     } else if (hour < 17) {
-      return 'Good afternoon';
+      return 'Good Afternoon';
     } else {
-      return 'Good evening';
+      return 'Good Evening ';
     }
   }
 
@@ -250,7 +260,7 @@ class CustomAppBar extends StatelessWidget {
       padding: const EdgeInsets.only(top: 50, left: 20, right: 20),
       height: 200,
       width: double.infinity,
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(20),
           bottomRight: Radius.circular(20),
@@ -260,8 +270,8 @@ class CustomAppBar extends StatelessWidget {
           end: Alignment.bottomRight,
           stops: [0.1, 0.5],
           colors: [
-            Color.fromARGB(255, 247, 29, 14),
-            Color.fromARGB(255, 214, 16, 16),
+            Color(0xFFFF1D0E),
+            Color(0xFFD61010),
           ],
         ),
       ),
@@ -286,7 +296,7 @@ class CustomAppBar extends StatelessWidget {
                 ),
               ),
               Text(
-                '$greeting,',
+                greeting, // Removed the comma
                 style: Theme.of(context).textTheme.headline6,
               ),
             ],
@@ -294,29 +304,50 @@ class CustomAppBar extends StatelessWidget {
           const SizedBox(
             height: 20,
           ),
+          // Search bar section
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: TextField(
+              controller: _searchController,
+              onChanged: (value) {
+                onSearchTextChanged(value); // Pass the original text
+              },
+              textDirection: TextDirection.ltr, // Set the text direction to LTR
+              decoration: InputDecoration(
+                hintText: "Search...",
+                prefixIcon: Icon(Icons.search),
+                filled: true,
+                fillColor: const Color.fromARGB(255, 54, 54, 54),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );
   }
 }
 
+
 class Category {
   final String name;
   final String thumbnail;
-  final int noOfCourses;
+  
 
   Category({
     required this.name,
     required this.thumbnail,
-    required this.noOfCourses,
+
   });
 }
 
 final categoryList = <Category>[
-  Category(name: 'Category 1', thumbnail: 'assets/images/guidance.png', noOfCourses: 8),
-  Category(name: 'Category 2', thumbnail: 'assets/images/graduates.png', noOfCourses: 12),
-  Category(name: 'Category 3', thumbnail: 'assets/images/chatbot.png', noOfCourses: 6),
-  Category(name: 'Category 4', thumbnail: 'assets/images/other.png', noOfCourses: 10),
+  Category(name: 'Category 1', thumbnail: 'assets/images/guidance.png', ),
+  Category(name: 'Category 2', thumbnail: 'assets/images/graduates.png', ),
+  Category(name: 'Category 3', thumbnail: 'assets/images/chatbot.png', ),
+  Category(name: 'Category 4', thumbnail: 'assets/images/other.png', ),
 ];
 const double kCategoryCardImageSize = 100.0;
 
@@ -333,8 +364,3 @@ class GuiderScreen extends StatelessWidget {
     );
   }
 }
-
-
-
-
-

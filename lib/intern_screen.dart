@@ -1,45 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:webview_flutter/webview_flutter.dart';
+import 'dart:convert';
 
-class InternScreen extends StatefulWidget {
+class InternshipSearchPage extends StatefulWidget {
   @override
-  _InternScreenState createState() => _InternScreenState();
+  _InternshipSearchPageState createState() => _InternshipSearchPageState();
 }
 
-class _InternScreenState extends State<InternScreen> {
-  String url = ''; // Initialize with an empty URL
+class _InternshipSearchPageState extends State<InternshipSearchPage> {
+  final apiKey = '84ffec0460743c55bc60bf704898ae1c5c210b7348843decf476d19d1ae53778'; // Replace with your SerpApi API Key
+  final TextEditingController _searchController = TextEditingController();
+  List<Map<String, dynamic>> _searchResults = [];
 
-  @override
-  void initState() {
-    super.initState();
-    // Call the function to fetch the URL when the screen is first loaded
-    fetchData();
-  }
-Future<void> fetchData() async {
-  final apiUrl = 'https://indeed12.p.rapidapi.com/job/02eb3a9f080f10e7'; // Replace with your actual API endpoint
-  final headers = {
-    "X-RapidAPI-Key": "YOUR_RAPIDAPI_KEY", // Replace with your RapidAPI key
-    "X-RapidAPI-Host": "indeed12.p.rapidapi.com",
-  };
-
+Future<void> _searchInternships(String query) async {
   try {
+    final endpoint = 'https://serpapi.com/search?engine=google_jobs&q=$query';
     final response = await http.get(
-      Uri.parse(apiUrl),
-      headers: headers,
+      Uri.parse(endpoint),
+      headers: {
+        'Authorization': 'Bearer $apiKey',
+      },
     );
-
+    
     if (response.statusCode == 200) {
+      final data = json.decode(response.body);
       setState(() {
-        url = response.body; // Store the fetched URL in the state
+        _searchResults = data['jobs'] ?? [];
       });
     } else {
-      // Handle API request error
-      print('Failed to fetch data. Status code: ${response.statusCode}');
-      print('Response body: ${response.body}');
+      // Handle non-200 response here
     }
   } catch (e) {
-    print('Error: $e');
+    // Handle network or parsing errors here
   }
 }
 
@@ -48,15 +40,42 @@ Future<void> fetchData() async {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Ongoing Internships'),
+        title: Text('Internship Search'),
       ),
-      body: url.isNotEmpty // Check if the URL is not empty
-          ? WebView(
-              initialUrl: url, // Display the fetched URL in the WebView
-            )
-          : Center(
-              child: CircularProgressIndicator(),
+      body: Column(
+        children: <Widget>[
+          Padding(
+            padding: EdgeInsets.all(16.0),
+            child: TextField(
+              controller: _searchController,
+              decoration: InputDecoration(
+                labelText: 'Search for Internships',
+                suffixIcon: IconButton(
+                  icon: Icon(Icons.search),
+                  onPressed: () {
+                    _searchInternships(_searchController.text);
+                  },
+                ),
+              ),
             ),
+          ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: _searchResults.length,
+              itemBuilder: (context, index) {
+                final job = _searchResults[index];
+                return ListTile(
+                  title: Text(job['title']),
+                  subtitle: Text(job['company']),
+                  onTap: () {
+                    // Add custom behavior when a job is tapped
+                  },
+                );
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
