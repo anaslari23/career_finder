@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:login_page/login_screen.dart';
+import 'package:login_page/registration_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -10,7 +10,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   double fontSize = 34.0;
   Color textColor = Colors.black38;
-  FontWeight fontWeight = FontWeight.w700;
+  FontWeight fontWeight = FontWeight.w400;
 
   @override
   void initState() {
@@ -19,7 +19,7 @@ class _SplashScreenState extends State<SplashScreen> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => LoginScreen(),
+          builder: (context) => RegistrationScreen(),
         ),
       );
     });
@@ -44,7 +44,7 @@ class _SplashScreenState extends State<SplashScreen> {
           Container(
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('assets/icons/icon.png'), // Your image path
+                image: AssetImage('assets/icons/splash.jpg'), // Your image path
                 fit: BoxFit.cover,
               ),
             ),
@@ -56,11 +56,9 @@ class _SplashScreenState extends State<SplashScreen> {
             child: Center(
               child: AnimatedContainer(
                 duration: Duration(seconds: 1),
-                curve: Curves.easeInOut,
+                curve: Curves.easeInOutCubicEmphasized,
                 decoration: BoxDecoration(
                   color: Colors.transparent,
-                  border: Border.all(color: Colors.white, width: 3.0),
-                  borderRadius: BorderRadius.circular(10.0),
                 ),
                 padding: EdgeInsets.all(10.0),
                 child: AnimatedDefaultTextStyle(
@@ -68,9 +66,9 @@ class _SplashScreenState extends State<SplashScreen> {
                   style: TextStyle(
                     fontSize: fontSize,
                     fontWeight: fontWeight,
-                    color: textColor,
+                    color: Colors.black45,
                   ),
-                  child: Text('CAREER FINDER'),
+                  child: Text('Career Finder'),
                 ),
               ),
             ),

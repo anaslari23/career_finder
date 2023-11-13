@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:login_page/login_screen.dart';
 
 class SettingsScreen extends StatelessWidget {
   @override
@@ -6,6 +7,7 @@ class SettingsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Settings'),
+        automaticallyImplyLeading: false, // Add this line to remove the back button
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -51,9 +53,10 @@ class SettingsScreen extends StatelessWidget {
             ListTile(
               title: Text('Sign Out'),
               onTap: () {
-                // Handle sign out logic here
-                // After signing out, navigate to the featured screen
-                Navigator.pop(context);
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => LoginScreen()),
+                );
               },
             ),
           ],
@@ -74,4 +77,3 @@ class ChangePasswordScreen extends StatelessWidget {
     );
   }
 }
-

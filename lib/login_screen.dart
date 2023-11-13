@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:login_page/registration_screen.dart';
-import 'package:login_page/widgets/gradient_button.dart';
-import 'package:login_page/widgets/login_field.dart';
-import 'package:login_page/widgets/social_button.dart';
-import 'package:http/http.dart' as http; // Added import for HTTP package
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:animate_do/animate_do.dart';
+import 'package:login_page/onboarding_screen.dart';
 
-void main() 
-{
+void main() {
   runApp(const MyApp());
 }
 
@@ -19,38 +17,82 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'CAREERAPP',
       theme: ThemeData.dark().copyWith(
-        scaffoldBackgroundColor: Colors.black, // Change to your background color
+        scaffoldBackgroundColor: Colors.black,
       ),
       home: const LoginScreen(),
     );
   }
 }
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
-  // Add the loginUser function here
-  Future<void> loginUser(String email, String password) async {
-    final url = Uri.parse('http://localhost:8000/api/login'); // Replace with your API endpoint
+  @override
+  _LoginScreenState createState() => _LoginScreenState();
+}
 
-    final response = await http.post(
-      url,
-      body: {
-        'email': email,
-        'password': password,
-      },
-    );
+class _LoginScreenState extends State<LoginScreen> {
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
 
-    if (response.statusCode == 200) {
-      // Successful login, handle the response here
-      // You can parse the JSON response using the `json.decode` method if the API returns JSON data.
-      // Example: final responseData = json.decode(response.body);
-      // You can perform actions like navigating to a new screen if login is successful.
-    } else {
-      // Handle error cases here
-      print('Failed to login: ${response.statusCode}');
-      // You can display an error message to the user, e.g., using a SnackBar or AlertDialog.
+  Future<void> loginUser(
+      String email, String password, BuildContext context) async {
+    final url = Uri.parse('http://192.168.29.71:8000/api/login');
+
+    try {
+      final response = await http.post(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: json.encode({
+          'email': email,
+          'password': password,
+        }),
+      );
+
+      final Map<String, dynamic> data = json.decode(response.body);
+
+      if (response.statusCode == 200 && data.containsKey('access_token')) {
+        // Successfully logged in, store the token
+        String accessToken = data['access_token'];
+        await TokenStorage.saveToken(accessToken);
+
+        // Navigate to the next screen
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => OnboardingScreen(),
+          ),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Login failed. ${data["error"] ?? "Unknown error"}'),
+            duration: Duration(seconds: 3),
+          ),
+        );
+      }
+    } catch (error) {
+      print('Error: $error');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+              'Failed to login. Please try again. Check logs for details.'),
+          duration: Duration(seconds: 3),
+        ),
+      );
     }
+  }
+
+  // Function to navigate to the OnboardingScreen
+  void navigateToOnboardingScreen() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => OnboardingScreen(),
+      ),
+    );
   }
 
   @override
@@ -60,82 +102,189 @@ class LoginScreen extends StatelessWidget {
         fit: StackFit.expand,
         children: [
           Image.asset(
-            'assets/images/log.jpg', // Change to your image path
+            'assets/images/background.png',
             fit: BoxFit.cover,
           ),
-          Center(
+          SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text(
-                  'CAREER FINDER',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 50,
-                    color: Colors.white,
-                  ),
-                ),
-                const SizedBox(height: 40),
-                SocialButton(
-                  onPressed: () async {
-                    // Perform Google sign-in
-                    final GoogleSignIn googleSignIn = GoogleSignIn();
-                    try {
-                      final GoogleSignInAccount? googleUser =
-                          await googleSignIn.signIn();
-
-                      if (googleUser != null) {
-                        // Successfully signed in, handle further logic
-                      } else {
-                        // User canceled the sign-in process
-                      }
-                    } catch (error) {
-                      // Handle errors
-                    }
-                  },
-                  label: ' Continue with Google  ',
-                  iconPath: 'assets/svg/google.svg', // Change to your SVG icon path
-                  horizontalPadding: 20,
-                ),
-                const SizedBox(height: 10),
-                const Text(
-                  'or',
-                  style: TextStyle(
-                    fontSize: 25,
-                  ),
-                ),
-                const SizedBox(height: 15),
-                const LoginField(hintText: 'Email'),
-                const SizedBox(height: 15),
-                const LoginField(hintText: 'Password'),
-                const SizedBox(height: 20),
-                const GradientButton(),
-                const SizedBox(height: 20), // Add spacing between the login button and "Sign Up"
-                ElevatedButton(
-                  onPressed: () {
-                    // Call loginUser function when the login button is pressed
-                    loginUser('user@example.com', 'password'); // Replace with actual user input
-                  },
-                  child: const Text('Login'),
-                ),
-                TextButton(
-                  onPressed: () {
-                    // Handle the "Sign Up" action here
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => RegistrationScreen(),
-                      ),
-                    );
-                  },
-                  child: const Text(
-                    'Sign Up',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
+                Container(
+                  height: 400,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage('assets/images/background.png'),
+                      fit: BoxFit.fill,
                     ),
                   ),
+                  child: Stack(
+                    children: <Widget>[
+                      Positioned(
+                        left: 30,
+                        width: 80,
+                        height: 200,
+                        child: FadeInUp(
+                          duration: Duration(seconds: 1),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: AssetImage('assets/images/light-1.png'),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        left: 140,
+                        width: 80,
+                        height: 150,
+                        child: FadeInUp(
+                          duration: Duration(milliseconds: 1200),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: AssetImage('assets/images/light-2.png'),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        child: FadeInUp(
+                          duration: Duration(milliseconds: 1600),
+                          child: Container(
+                            margin: EdgeInsets.only(top: 50),
+                            child: Center(
+                              child: Text(
+                                "Login",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 40,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
+                Padding(
+                  padding: EdgeInsets.all(30.0),
+                  child: Column(
+                    children: <Widget>[
+                      FadeInUp(
+                        duration: Duration(milliseconds: 1800),
+                        child: Container(
+                          padding: EdgeInsets.all(5),
+                          decoration: BoxDecoration(
+                            color: Colors.black12,
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(
+                                color: Color.fromRGBO(143, 148, 251, 1)),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Color.fromRGBO(143, 148, 251, .2),
+                                blurRadius: 20.0,
+                                offset: Offset(0, 10),
+                              ),
+                            ],
+                          ),
+                          child: Column(
+                            children: <Widget>[
+                              Container(
+                                padding: EdgeInsets.all(8.0),
+                                decoration: BoxDecoration(
+                                  border: Border(
+                                      bottom: BorderSide(
+                                          color: Color.fromRGBO(
+                                              143, 148, 251, 1))),
+                                ),
+                                child: TextField(
+                                  controller: emailController,
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    hintText: "Email or Phone number",
+                                    hintStyle: TextStyle(color: Colors.white),
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                padding: EdgeInsets.all(8.0),
+                                child: TextField(
+                                  controller: passwordController,
+                                  obscureText: true,
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    hintText: "Password",
+                                    hintStyle: TextStyle(color: Colors.white),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 30),
+                      FadeInUp(
+                        duration: Duration(milliseconds: 1900),
+                        child: Container(
+                          height: 50,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            gradient: LinearGradient(
+                              colors: [
+                                Color.fromRGBO(143, 148, 251, 1),
+                                Color.fromRGBO(143, 148, 251, .6),
+                              ],
+                            ),
+                          ),
+                          child: ElevatedButton(
+                            onPressed: () {
+                              loginUser(emailController.text,
+                                  passwordController.text, context);
+                            },
+                            style: ElevatedButton.styleFrom(
+                              primary: Colors.transparent,
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            child: Text(
+                              "Login",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 70),
+                      FadeInUp(
+                        duration: Duration(milliseconds: 2000),
+                        child: Text(
+                          "Forgot Password?",
+                          style: TextStyle(
+                              color: Color.fromRGBO(143, 148, 251, 1)),
+                        ),
+                      ),
+                      // Add a Skip button at the top-right corner
+                      Positioned(
+                        top: 20,
+                        right: 20,
+                        child: TextButton(
+                          onPressed: navigateToOnboardingScreen,
+                          child: Text(
+                            'Skip',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                )
               ],
             ),
           ),
@@ -145,27 +294,16 @@ class LoginScreen extends StatelessWidget {
   }
 }
 
-class FacebookSignInScreen extends StatelessWidget {
-  const FacebookSignInScreen({Key? key}) : super(key: key);
+class TokenStorage {
+  static const String _tokenKey = 'auth_token';
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Facebook Sign-In'),
-      ),
-      body: const Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'Facebook Sign-In Screen',
-              style: TextStyle(fontSize: 20),
-            ),
-            // Add your Facebook sign-in UI components here
-          ],
-        ),
-      ),
-    );
+  static Future<void> saveToken(String accessToken) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString(_tokenKey, accessToken);
+  }
+
+  static Future<String?> getToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString(_tokenKey);
   }
 }

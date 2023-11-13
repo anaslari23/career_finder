@@ -5,7 +5,7 @@ import 'package:login_page/intern_screen.dart';
 import 'package:login_page/jobportalapp.dart';
 import 'package:login_page/profile_screen.dart';
 import 'package:login_page/screens/ongoing_internships_screen.dart';
-
+import 'package:login_page/TrendingCoursesScreen.dart';
 void main() {
   runApp(
     MaterialApp(
@@ -155,7 +155,7 @@ class CategoryCard extends StatelessWidget {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => GuiderScreen(),
+          builder: (context) => TrendingCourseSearchPage(),
         ),
       );
     } else if (category.name == 'Category 2') {
@@ -351,16 +351,3 @@ final categoryList = <Category>[
 ];
 const double kCategoryCardImageSize = 100.0;
 
-class GuiderScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Guider Screen'),
-      ),
-      body: Center(
-        child: Text('This is the Guider Screen'),
-      ),
-    );
-  }
-}
