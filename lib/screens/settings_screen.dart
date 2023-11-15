@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:login_page/login_screen.dart';
+import 'package:login_page/registration_screen.dart';
+import 'package:animate_do/animate_do.dart';
 
 class SettingsScreen extends StatelessWidget {
   @override
@@ -7,73 +9,87 @@ class SettingsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Settings'),
-        automaticallyImplyLeading: false, // Add this line to remove the back button
+        automaticallyImplyLeading: false,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(
-              'General Settings',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/images/settings.gif'), // Replace with your image path
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: FadeInUp(
+            duration: Duration(milliseconds: 500),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  'General Settings',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black),
+                ),
+                ListTile(
+                  title: Text(
+                    'Notifications',
+                    style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+                  ),
+                  trailing: Switch(
+                    value: true,
+                    onChanged: (value) {
+                      // Handle the switch toggle here
+                    },
+                  ),
+                ),
+                Divider(),
+                ListTile(
+                  title: Text(
+                    'Dark Mode',
+                    style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+                  ),
+                  trailing: Switch(
+                    value: false,
+                    onChanged: (value) {
+                      // Handle the switch toggle here
+                    },
+                  ),
+                ),
+                Divider(),
+                Text(
+                  'Account Settings',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black),
+                ),
+                Divider(),
+                ListTile(
+                  title: Text(
+                    'Register',
+                    style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+                  ),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => RegistrationScreen()),
+                    );
+                  },
+                ),
+                Divider(),
+                ListTile(
+                  title: Text(
+                    'Sign Out',
+                    style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+                  ),
+                  onTap: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => LoginScreen()),
+                    );
+                  },
+                ),
+              ],
             ),
-            ListTile(
-              title: Text('Notifications'),
-              trailing: Switch(
-                value: true, // Replace with your logic to handle notifications
-                onChanged: (value) {
-                  // Handle the switch toggle here
-                },
-              ),
-            ),
-            Divider(),
-            ListTile(
-              title: Text('Dark Mode'),
-              trailing: Switch(
-                value: false, // Replace with your logic to handle dark mode
-                onChanged: (value) {
-                  // Handle the switch toggle here
-                },
-              ),
-            ),
-            Divider(),
-            Text(
-              'Account Settings',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            ListTile(
-              title: Text('Change Password'),
-              onTap: () {
-                // Navigate to the change password screen
-                Navigator.push(context, MaterialPageRoute(builder: (context) => ChangePasswordScreen()));
-              },
-            ),
-            Divider(),
-            ListTile(
-              title: Text('Sign Out'),
-              onTap: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => LoginScreen()),
-                );
-              },
-            ),
-          ],
+          ),
         ),
       ),
-    );
-  }
-}
-
-class ChangePasswordScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Change Password'),
-      ),
-      // Your change password screen content goes here
     );
   }
 }
