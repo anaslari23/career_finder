@@ -1,5 +1,18 @@
 import 'package:flutter/material.dart';
 
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: WishlistScreen(),
+    );
+  }
+}
+
 class WishlistScreen extends StatefulWidget {
   const WishlistScreen({Key? key}) : super(key: key);
 
@@ -15,13 +28,17 @@ class _WishlistScreenState extends State<WishlistScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Wishlist'),
+        backgroundColor: appBarColor1, // Set the background color of the AppBar
       ),
-      body: AnimatedList(
-        key: _listKey,
-        initialItemCount: wishlistItems.length,
-        itemBuilder: (context, index, animation) {
-          return buildWishlistItem(wishlistItems[index], animation, index);
-        },
+      body: Container(
+        color: appBarColor2, // Set the background color of the screen
+        child: AnimatedList(
+          key: _listKey,
+          initialItemCount: wishlistItems.length,
+          itemBuilder: (context, index, animation) {
+            return buildWishlistItem(wishlistItems[index], animation, index);
+          },
+        ),
       ),
     );
   }
@@ -58,3 +75,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
     );
   }
 }
+
+// Define the color constants
+const Color appBarColor1 = Color.fromARGB(255, 10, 10, 10);
+const Color appBarColor2 = Color.fromARGB(255, 255, 255, 255);

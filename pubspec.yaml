@@ -54,6 +54,7 @@ dependencies:
   path_provider: ^2.1.1
   file_picker: ^6.1.1
   open_file: ^3.3.2
+  onboarding: ^3.1.0
   
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -106,6 +107,7 @@ flutter:
     - assets/images/log.jpg
     - assets/svg/google.svg
     - assets/images/onboarding_image1.png
+    - assets/images/onboarding_image.jpg
     - assets/images/onboarding_image2.png
     - assets/images/onboarding_image3.png
     - assets/icons/star.png
@@ -118,7 +120,6 @@ flutter:
     - assets/images/graduates.png
     - assets/images/other.png
     - assets/images/background.gif
-    - assets/images/ic.gif
     - assets/images/uu.png
     - assets/images/giphy.gif
     - assets/icons/splash.jpg
@@ -128,13 +129,20 @@ flutter:
     - assets/images/applogo.jpg
     - assets/images/profiles.jpg
     - assets/images/default_avatar.jpg
-    - assets/images/settings.gif
+    - assets/images/settings.png
     - assets/icons/splash.gif
     - assets/images/chatbot.gif
     - assets/images/book.gif
     - assets/images/light-1.png
     - assets/images/light-2.png
-  # The following line ensures that the Material Icons font is
+    - assets/images/ic.png
+    - assets/images/chatbot.png
+    - assets/images/image1.png
+    - assets/images/image2.png
+    - assets/images/image3.png
+    - assets/images/imag.png
+     
+   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
@@ -177,6 +185,12 @@ flutter:
         - asset: assets/fonts/Cera-Pro-Bold.otf
         - asset: assets/fonts/Cera-Pro-Medium.otf
  
+
+    - family: Mulish
+      fonts:
+      - asset: assets/fonts/Mulish-Light.ttf
+      - asset: assets/fonts/Mulish-SemiBold.ttf
+
   
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

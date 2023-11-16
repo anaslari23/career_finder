@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 import 'package:login_page/api_key.dart';
 import 'package:flutter/material.dart';
@@ -62,7 +61,8 @@ class _ChatbotState extends State<Chatbot> {
       uri,
       headers: {
         "Content-Type": "application/json",
-         "Authorization": "Bearer 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",
+        "Authorization":
+            "Bearer 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",
       },
       body: json.encode(body),
     );
@@ -82,7 +82,8 @@ class _ChatbotState extends State<Chatbot> {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
         child: Column(
-          crossAxisAlignment: message.isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+          crossAxisAlignment:
+              message.isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
           children: <Widget>[
             Text(
               message.isMe ? 'You' : 'GPT',
@@ -90,14 +91,18 @@ class _ChatbotState extends State<Chatbot> {
             ),
             Container(
               decoration: BoxDecoration(
-                color: message.isMe ? Color.fromARGB(255, 245, 210, 255) : Color.fromARGB(255, 250, 194, 247),
+                color: message.isMe
+                    ? Color.fromARGB(255, 245, 210, 255)
+                    : Color.fromARGB(255, 250, 194, 247),
                 borderRadius: BorderRadius.circular(10),
               ),
               padding: EdgeInsets.all(10),
               child: Text(
                 message.text,
                 style: TextStyle(
-                  color: message.isMe ? Color.fromARGB(255, 24, 18, 49) : Colors.black,
+                  color: message.isMe
+                      ? Color.fromARGB(255, 24, 18, 49)
+                      : Colors.black,
                 ),
               ),
             ),
@@ -118,7 +123,7 @@ class _ChatbotState extends State<Chatbot> {
           Container(
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('assets/images/ic.gif'),
+                image: AssetImage('assets/images/ic.png'),
                 fit: BoxFit.cover, // Fit the image to cover the entire screen
               ),
             ),
@@ -139,7 +144,8 @@ class _ChatbotState extends State<Chatbot> {
                   padding: EdgeInsets.all(10),
                   child: Text(
                     'Generating...',
-                    style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, color: Colors.grey),
                   ),
                 ),
               Divider(height: 1.0),
