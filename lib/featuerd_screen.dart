@@ -4,8 +4,12 @@ import 'package:login_page/chatbot.dart';
 import 'package:login_page/intern_screen.dart';
 import 'package:login_page/jobportalapp.dart';
 import 'package:login_page/profile_screen.dart';
-import 'package:login_page/screens/ongoing_internships_screen.dart';
 import 'package:login_page/TrendingCoursesScreen.dart';
+import 'package:login_page/ResumeBuilderScreen.dart';
+import 'package:login_page/BookFinderScreen.dart';
+import 'package:login_page/courseListingScreen.dart';
+import 'package:login_page/NewsScreen.dart';
+
 void main() {
   runApp(
     MaterialApp(
@@ -38,6 +42,16 @@ class _FeaturedScreenState extends State<FeaturedScreen> {
     });
   }
 
+  void openResumeBuilder(BuildContext context) {
+    // Navigate to the Resume Builder screen
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ResumeBuilderScreen(),
+      ),
+    );
+  }
+
   List<Category> getFilteredCategories(List<Category> categories) {
     if (searchText.isEmpty) {
       return categories;
@@ -56,10 +70,21 @@ class _FeaturedScreenState extends State<FeaturedScreen> {
       child: Scaffold(
         body: Column(
           children: [
-            CustomAppBar(searchText: searchText, onSearchTextChanged: updateSearchText),
+            CustomAppBar(
+              searchText: searchText,
+              onSearchTextChanged: updateSearchText,
+            ),
             Body(searchText: searchText),
           ],
         ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            // Call the function to open the Resume Builder
+            openResumeBuilder(context);
+          },
+          child: Icon(Icons.description),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       ),
     );
   }
@@ -132,6 +157,169 @@ class Body extends StatelessWidget {
   }
 }
 
+class CustomAppBar extends StatelessWidget {
+  final String searchText;
+  final Function(String) onSearchTextChanged;
+  final TextEditingController _searchController = TextEditingController();
+
+  CustomAppBar({required this.searchText, required this.onSearchTextChanged}) {
+    _searchController.text = searchText;
+  }
+
+  static const Color appBarColor1 = Color(0xFFB2DFDB);
+  static const Color appBarColor2 = Color(0xFF80CBC4);
+
+  String _getGreeting() {
+    final now = DateTime.now();
+    final hour = now.hour;
+
+    if (hour < 12) {
+      return 'Good Morning';
+    } else if (hour < 17) {
+      return 'Good Afternoon';
+    } else {
+      return 'Good Evening ';
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final greeting = _getGreeting();
+
+    return Container(
+      padding: const EdgeInsets.only(top: 50, left: 20, right: 20),
+      height: 200,
+      width: double.infinity,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(20),
+          bottomRight: Radius.circular(20),
+        ),
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          stops: [0.1, 0.5],
+          colors: [
+            appBarColor1,
+            appBarColor2,
+          ],
+        ),
+      ),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              InkWell(
+                onTap: () {
+                  // Navigate to the Profile Screen
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ProfileScreen(),
+                    ),
+                  );
+                },
+                child: CircleAvatar(
+                  backgroundImage: AssetImage('assets/images/fff.png'),
+                  radius: 30,
+                ),
+              ),
+              Text(
+                greeting,
+                style: Theme.of(context).textTheme.headline6,
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          // Two Circle-type Icons for Book Finder and Course Listing
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              CircleIconButton(
+                icon: Icons.search,
+                label: 'Book Finder',
+                onPressed: () {
+                  // Handle the click for book finder
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => BookFinderScreen(),
+                    ),
+
+                  );
+                },
+              ),
+              CircleIconButton(
+                icon: Icons.view_list,
+                label: 'Course Listing',
+                onPressed: () {
+                  // Handle the click for course listing
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => CourseListingScreen(),
+                    ),
+                  );
+                },
+              ),              CircleIconButton(
+                icon: Icons.article,
+                label: 'News',
+                onPressed: () {
+                  // Handle the click for news
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => NewsScreen(),
+                    ),
+                  );
+                },
+              ),
+           
+              
+            
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+class CircleIconButton extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final VoidCallback onPressed;
+
+  const CircleIconButton({
+    Key? key,
+    required this.icon,
+    required this.label,
+    required this.onPressed,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onPressed,
+      child: Column(
+        children: [
+          CircleAvatar(
+            backgroundColor: const Color.fromARGB(255, 17, 17, 17), // Choose your desired color
+            child: Icon(
+              icon,
+              color: Colors.white,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(label),
+        ],
+      ),
+    );
+  }
+}
 class CategoryCard extends StatelessWidget {
   final Category category;
   CategoryCard({Key? key, required this.category}) : super(key: key);
@@ -173,10 +361,11 @@ class CategoryCard extends StatelessWidget {
         ),
       );
     } else if (category.name == 'Category 4') {
-      Navigator.push(
+      Navigator.push
+      (
         context,
         MaterialPageRoute(
-          builder: (context) =>   JobPortalApp(),
+          builder: (context) => JobPortalApp(),
         ),
       );
     }
@@ -191,7 +380,7 @@ class CategoryCard extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
-          color: const Color.fromARGB(255, 32, 31, 31),
+          color: Color.fromARGB(255, 144, 233, 233),
           borderRadius: BorderRadius.only(
             bottomLeft: Radius.circular(20),
             bottomRight: Radius.circular(20),
@@ -224,107 +413,8 @@ class CategoryCard extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            
           ],
         ),
-      ),
-    );
-  }
-}class CustomAppBar extends StatelessWidget {
-  final String searchText;
-  final Function(String) onSearchTextChanged;
-  final TextEditingController _searchController = TextEditingController();
-
-  CustomAppBar({required this.searchText, required this.onSearchTextChanged}) {
-    _searchController.text = searchText; // Initialize the search text in the controller
-  }
-
-  String _getGreeting() {
-    final now = DateTime.now();
-    final hour = now.hour;
-
-    if (hour < 12) {
-      return 'Good Morning';
-    } else if (hour < 17) {
-      return 'Good Afternoon';
-    } else {
-      return 'Good Evening ';
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final greeting = _getGreeting();
-
-    return Container(
-      padding: const EdgeInsets.only(top: 50, left: 20, right: 20),
-      height: 200,
-      width: double.infinity,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(20),
-          bottomRight: Radius.circular(20),
-        ),
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          stops: [0.1, 0.5],
-          colors: [
-            Color(0xFFFF1D0E),
-            Color(0xFFD61010),
-          ],
-        ),
-      ),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ProfileScreen(),
-                    ),
-                  );
-                },
-                child: CircleAvatar(
-                  backgroundImage: AssetImage('assets/images/fff.png'),
-                  radius: 30,
-                ),
-              ),
-              Text(
-                greeting, // Removed the comma
-                style: Theme.of(context).textTheme.headline6,
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          // Search bar section
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: TextField(
-              controller: _searchController,
-              onChanged: (value) {
-                onSearchTextChanged(value); // Pass the original text
-              },
-              textDirection: TextDirection.ltr, // Set the text direction to LTR
-              decoration: InputDecoration(
-                hintText: "Search...",
-                prefixIcon: Icon(Icons.search),
-                filled: true,
-                fillColor: const Color.fromARGB(255, 54, 54, 54),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }
@@ -334,20 +424,18 @@ class CategoryCard extends StatelessWidget {
 class Category {
   final String name;
   final String thumbnail;
-  
 
   Category({
     required this.name,
     required this.thumbnail,
-
   });
 }
 
 final categoryList = <Category>[
-  Category(name: 'Category 1', thumbnail: 'assets/images/guidance.png', ),
-  Category(name: 'Category 2', thumbnail: 'assets/images/graduates.png', ),
-  Category(name: 'Category 3', thumbnail: 'assets/images/chatbot.png', ),
-  Category(name: 'Category 4', thumbnail: 'assets/images/other.png', ),
+  Category(name: 'Category 1', thumbnail: 'assets/images/guidance.png'),
+  Category(name: 'Category 2', thumbnail: 'assets/images/graduates.png'),
+  Category(name: 'Category 3', thumbnail: 'assets/images/chatbot.png'),
+  Category(name: 'Category 4', thumbnail: 'assets/images/other.png'),
 ];
 const double kCategoryCardImageSize = 100.0;
 

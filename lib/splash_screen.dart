@@ -15,7 +15,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Timer(Duration(seconds: 2), () {
+    Timer(Duration(seconds: 4), () {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -44,7 +44,7 @@ class _SplashScreenState extends State<SplashScreen> {
           Container(
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('assets/icons/splash.jpg'), // Your image path
+                image: AssetImage('assets/icons/splash.gif'), // Your image path
                 fit: BoxFit.cover,
               ),
             ),
@@ -56,13 +56,12 @@ class _SplashScreenState extends State<SplashScreen> {
             child: Center(
               child: AnimatedContainer(
                 duration: Duration(seconds: 1),
-                curve: Curves.easeInOutCubicEmphasized,
                 decoration: BoxDecoration(
                   color: Colors.transparent,
                 ),
                 padding: EdgeInsets.all(10.0),
                 child: AnimatedDefaultTextStyle(
-                  duration: Duration(seconds: 1),
+                  duration: Duration(seconds: 6),
                   style: TextStyle(
                     fontSize: fontSize,
                     fontWeight: fontWeight,

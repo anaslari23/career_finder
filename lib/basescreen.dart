@@ -31,9 +31,9 @@ class _BaseScreenState extends State<BaseScreen> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
-        selectedItemColor: Colors.blue, // Change this color
-        unselectedItemColor: Color.fromARGB(255, 165, 236, 175), // Add this line to set unselected color
-        backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+        selectedItemColor: Colors.white, // Change this color
+        unselectedItemColor: Color.fromARGB(255, 255, 255, 255), // Add this line to set unselected color
+        backgroundColor: Color.fromARGB(255, 97, 183, 192),
         elevation: 0,
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
