@@ -1,7 +1,7 @@
-import'package:flutter/material.dart';
-import'package:http/http.dart' as http;
-import'package:login_page/login_screen.dart';
-import'package:login_page/onboarding_screen.dart';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:login_page/login_screen.dart';
+import 'package:login_page/onboarding_screen.dart';
 
 void main() {
   runApp(
@@ -26,21 +26,37 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     'B.Tech': [
       'Computer Science',
       'Electronics',
-      // Add more branches here
+      'Electronics and Communication Engineering',
+      'Electrical Engineering',
+      'Computer Science Engineering',
+      'Mechanical Engineering',
+      'Civil Engineering',
     ],
     'M.Tech': [
-      'Mechanical Engineering',
+      'Computer Science',
+      'Electronics',
+      'Electronics and Communication Engineering',
       'Electrical Engineering',
-      // Add more branches here
+      'Computer Science Engineering',
+      'Mechanical Engineering',
+      'Civil Engineering',
     ],
     'Diploma in Engg': [
-      'Mechanical Engineering',
+      'Computer Science',
+      'Electronics',
+      'Electronics and Communication Engineering',
       'Electrical Engineering',
-      // Add more branches here
+      'Computer Science Engineering',
+      'Mechanical Engineering',
+      'Civil Engineering',
     ],
     'BCA': [
       'Computer Engineering',
-      // Add more branches here
+      'Electronics and Communication Engineering',
+      'Electrical Engineering',
+      'Computer Science Engineering',
+      'Mechanical Engineering',
+      'Civil Engineering',
     ],
   };
 
@@ -69,7 +85,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 image: AssetImage('assets/images/background.gif'),
                 fit: BoxFit.cover,
                 colorFilter: ColorFilter.mode(
-                  Colors.black.withOpacity(0.5),
+                  Colors.black.withOpacity(0.3),
                   BlendMode.darken,
                 ),
               ),
@@ -187,26 +203,28 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   ),
                   const SizedBox(height: 12),
 
-                  // Branch Selection
                   Text(
                     'Branch',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  DropdownButton<String>(
-                    value: selectedBranch,
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        selectedBranch = newValue!;
-                      });
-                    },
-                    items: branches[selectedCourse]!.map((String branch) {
-                      return DropdownMenuItem<String>(
-                        value: branch,
-                        child: Text(branch),
-                      );
-                    }).toList(),
+                  Container(
+                    width: double.infinity, // Set a fixed width or adjust as needed
+                    child: DropdownButton<String>(
+                      value: selectedBranch,
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          selectedBranch = newValue!;
+                        });
+                      },
+                      items: branches[selectedCourse]!.map((String branch) {
+                        return DropdownMenuItem<String>(
+                          value: branch,
+                          child: Text(branch),
+                        );
+                      }).toList(),
+                    ),
                   ),
                   const SizedBox(height: 12),
 
@@ -216,7 +234,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         // Password validation
                         if (password.length < 6) {
                           setState(() {
-                            passwordError = 'Password must be at least 6 characters';
+                            passwordError =
+                            'Password must be at least 6 characters';
                           });
                         } else {
                           passwordError = '';
@@ -233,7 +252,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             };
 
                             // Make a POST request to the API
-                            final apiUrl = 'http://192.168.29.71:8000/api/register';
+                            final apiUrl =
+                                'http://192.168.1.4:8000/api/register';
                             final response = await http.post(
                               Uri.parse(apiUrl),
                               body: registrationData,

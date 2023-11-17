@@ -62,7 +62,7 @@ class _ChatbotState extends State<Chatbot> {
       headers: {
         "Content-Type": "application/json",
         "Authorization":
-            "Bearer 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",
+        "Bearer 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",
       },
       body: json.encode(body),
     );
@@ -83,7 +83,7 @@ class _ChatbotState extends State<Chatbot> {
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
         child: Column(
           crossAxisAlignment:
-              message.isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+          message.isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
           children: <Widget>[
             Text(
               message.isMe ? 'You' : 'GPT',
@@ -184,3 +184,4 @@ class Message {
 
   Message({required this.text, required this.isMe});
 }
+

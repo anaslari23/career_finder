@@ -51,7 +51,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<void> loginUser(
       String email, String password, BuildContext context) async {
-    final url = Uri.parse('http://192.168.29.71:8000/api/login');
+    final url = Uri.parse('http://192.168.1.4:8000/api/login');
 
     try {
       final response = await http.post(
@@ -126,10 +126,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 Container(
                   height: 400,
                   decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage('assets/images/background.png'),
-                      fit: BoxFit.fill,
-                    ),
                   ),
                   child: Stack(
                     children: <Widget>[
@@ -149,11 +145,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         width: 80,
                         height: 150,
                         child: Container(
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage('assets/images/light-2.png'),
-                            ),
-                          ),
                         ),
                       ),
                       Positioned(
@@ -164,7 +155,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               "Login",
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 40,
+                                fontSize: 60,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -184,10 +175,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           color: Colors.black12,
                           borderRadius: BorderRadius.circular(10),
                           border: Border.all(
-                              color: Color.fromRGBO(143, 148, 251, 1)),
+                              color: Color.fromRGBO(156, 197, 252, 1)),
                           boxShadow: [
                             BoxShadow(
-                              color: Color.fromRGBO(143, 148, 251, .2),
+                              color: Color.fromRGBO(156, 197, 251, .2),
                               blurRadius: 20.0,
                               offset: Offset(0, 10),
                             ),
@@ -201,7 +192,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 border: Border(
                                     bottom: BorderSide(
                                         color: Color.fromRGBO(
-                                            143, 148, 251, 1))),
+                                            156, 197, 251, 1))),
                               ),
                               child: TextField(
                                 controller: emailController,
@@ -234,8 +225,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           borderRadius: BorderRadius.circular(10),
                           gradient: LinearGradient(
                             colors: [
-                              Color.fromRGBO(143, 148, 251, 1),
-                              Color.fromRGBO(143, 148, 251, .6),
+                              Color.fromRGBO(253, 182, 184, 1),
+                              Color.fromRGBO(253, 182, 184, .6),
                             ],
                           ),
                         ),
@@ -254,7 +245,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: Text(
                             "Login",
                             style: TextStyle(
-                                color: Colors.white,
+                                color: Colors.black,
                                 fontWeight: FontWeight.bold),
                           ),
                         ),
@@ -263,7 +254,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       Text(
                         "Forgot Password?",
                         style: TextStyle(
-                            color: Color.fromRGBO(143, 148, 251, 1)),
+                            color: Color.fromRGBO(25, 180, 255, 1.0)),
                       ),
                       // Add a Skip button at the top-right corner
                       Positioned(
@@ -273,7 +264,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           onPressed: navigateToOnboardingScreen,
                           child: Text(
                             'Skip',
-                            style: TextStyle(color: Colors.white),
+                            style: TextStyle(color: Colors.black45),
                           ),
                         ),
                       ),

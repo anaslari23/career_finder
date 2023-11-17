@@ -47,7 +47,7 @@ class _BookFinderScreenState extends State<BookFinderScreen> {
           Container(
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('assets/images/book.gif'),
+                image: AssetImage('assets/images/book.jpg'),
                 fit: BoxFit.cover,
               ),
             ),

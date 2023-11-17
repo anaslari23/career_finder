@@ -58,7 +58,7 @@ class _FeaturedScreenState extends State<FeaturedScreen> {
     } else {
       return categories
           .where((category) =>
-              category.name.toLowerCase().contains(searchText.toLowerCase()))
+          category.name.toLowerCase().contains(searchText.toLowerCase()))
           .toList();
     }
   }
@@ -100,7 +100,7 @@ class Body extends StatelessWidget {
     } else {
       return categories
           .where((category) =>
-              category.name.toLowerCase().contains(searchText.toLowerCase()))
+          category.name.toLowerCase().contains(searchText.toLowerCase()))
           .toList();
     }
   }
@@ -261,13 +261,13 @@ class CustomAppBar extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => CourseListingScreen(),
+                      builder: (context) => CourseListingScreen(qualificationId: 0),
                     ),
                   );
                 },
               ),              CircleIconButton(
                 icon: Icons.article,
-                label: 'News',
+                label: 'Tasks',
                 onPressed: () {
                   // Handle the click for news
                   Navigator.push(
@@ -278,9 +278,9 @@ class CustomAppBar extends StatelessWidget {
                   );
                 },
               ),
-           
-              
-            
+
+
+
             ],
           ),
         ],
@@ -362,7 +362,7 @@ class CategoryCard extends StatelessWidget {
       );
     } else if (category.name == 'Category 4') {
       Navigator.push
-      (
+        (
         context,
         MaterialPageRoute(
           builder: (context) => JobPortalApp(),
@@ -438,4 +438,3 @@ final categoryList = <Category>[
   Category(name: 'Category 4', thumbnail: 'assets/images/other.png'),
 ];
 const double kCategoryCardImageSize = 100.0;
-

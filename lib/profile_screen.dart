@@ -49,9 +49,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
       if (accessToken != null) {
         final response = await http.get(
-          Uri.parse('http://192.168.29.71:8000/api/profile'),
+          Uri.parse('http://192.168.1.4:8000/api/profile'),
           headers: {
-            'Authorization': 'Bearer $accessToken',
+            'Authorization': 'Beare $accessToken',
           },
         );
 
