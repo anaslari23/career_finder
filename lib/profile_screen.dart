@@ -48,10 +48,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
       String? accessToken = await TokenStorage.getToken();
 
       if (accessToken != null) {
-        final response = await http.get(
+        final response = await http.post(
           Uri.parse('http://192.168.1.4:8000/api/profile'),
           headers: {
-            'Authorization': 'Beare $accessToken',
+            'Authorization': 'Bearer $accessToken',
           },
         );
 
@@ -131,7 +131,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 'Stream',
                 'Qualification', // Added Qualification
               ].map(
-                (key) => FadeInUp(
+                    (key) => FadeInUp(
                   child: Container(
                     margin: const EdgeInsets.symmetric(vertical: 5),
                     padding: const EdgeInsets.all(10),

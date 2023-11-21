@@ -29,7 +29,7 @@ class _CourseListingScreenState extends State<CourseListingScreen> {
   Future<void> fetchQualificationDetails() async {
     try {
       final response = await http.get(
-        Uri.parse('http://192.168.1.4:8000/api/get-qualification?id=1'),
+        Uri.parse('http://192.168.1.4:8000/api/get-qualification?id=2'),
         // Add headers if needed
       );
 
@@ -61,8 +61,13 @@ class _CourseListingScreenState extends State<CourseListingScreen> {
 
   Future<void> fetchAllCourses() async {
     try {
+      int id = 14;
+//int id =15 // electronics
+//int id =16 //computer
+//int id =17 // Mechanical
+//int id=18//Civil;
       final response = await http.get(
-        Uri.parse('http://192.168.1.4:8000/api/get-allcourses?id=1'),
+        Uri.parse('http://192.168.1.4:8000/api/get-allcourses?$id=14'),
         // Add headers if needed
       );
 

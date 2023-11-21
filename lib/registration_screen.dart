@@ -173,7 +173,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       });
                     },
                     decoration: InputDecoration(
-                      labelText: 'Mobile Number (Optional)',
+                      labelText: 'Mobile Number',
                       border: OutlineInputBorder(),
                     ),
                   ),
