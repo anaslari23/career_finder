@@ -1,0 +1,9 @@
+name: RepoMark
+on:
+  push:
+    branches: [ career_finder ]
+  workflow_dispatch:
+permissions: { contents: read, id-token: write, attestations: write }
+jobs:
+  seal:
+    uses: anaslari23/RepoMark/.github/workflows/seal.yml@main
